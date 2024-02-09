@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="./2.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./2.png" sizes="16x16">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <title>Staking STKN</title>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+    </style>
+
+</head>
+
+<body
+    style="background: #2b5876; background: -webkit-linear-gradient(to right, #2b5876, #4e4376); background: linear-gradient(to right, #2b5876, #4e4376);">
+
+    <div
+        class="max-w-full lg:w-1/3 lg:mx-auto xl:w-1/3 lx:mx-auto md:w-1/2 md:mx-auto sm:w-[60%] sm:mx-auto h-auto py-4 px-4 mx-4 mt-4 mb-4 lg:mt-6 lg:mb-0 backdrop-blur-lg bg-white/5 font-poppins rounded-lg shadow-md lg:shadow-lg xl:rounded-lg xl:shadow-lg">
+        <div class="flex justify-between">
+            <h1 class="text-[24px] font-bold text-white">Staking</h1>
+            <div class="flex">
+                <div class="w-8 h-8 my-auto bg-cover border border-sky-500 rounded-full" style="background-image: url('./1.png');"></div>
+                <button id="connectButton"
+                    class="px-4 lg:py-1 lg:px-6 text-[16px] ml-1 font-semibold bg-slate-700 text-white hover:bg-slate-800 hover:text-slate-200 rounded-md"
+                    onclick="init()">Connect
+                    Metamask</button>
+            </div>
+        </div>
+
+        <div class="flex items-center mt-2 mb-4">
+            <div class="w-8 h-8 mr-2 border border-sky-500 rounded-full"><img class="bg-cover" src="./2.png" alt="PFP"></div>
+            <div class="text-[16px] font-semibold text-white font-poppins">Simple Token</div>
+        </div>
+
+        <div class="text-[18px] font-semibold mb-2 text-white">Balance <span id="balance"></span> STKN</div>
+
+        <div class="mb-8">
+            <div
+                class="pt-2 pb-4 px-2 mb-6 flex flex-col justify-center-center rounded-lg shadow-lg backdrop-blur-lg bg-white/5">
+                <label for="stakeAmount" class="text-white" id="stakeAmountLabel">Stake</label>
+                <div class="flex flex-col lg:flex-row">
+                    <div class="lg:flex">
+                        <div class="flex w-full py-[2px] border-2 border-slate-400 rounded-md">
+                            <input id="stakeAmount" type="text"
+                                class="w-full text-white ml-1 bg-transparent outline-none" placeholder="Enter amount">
+                            <button
+                                class="bg-slate-700 text-white py-1 px-6 ml-2 hover:bg-slate-800 hover:text-slate-200 font-semibold rounded-md"
+                                id="maxStakeAmount" onclick="setMaxStakeAmount()">Max</button>
+                        </div>
+                        <button
+                            class="bg-slate-700 text-white block lg:inline-block ml-auto lg:ml-1 lg:mr-0 lg:my-auto hover:bg-slate-800 hover:text-slate-200 px-6 py-[5px] lg:py-[6px] mt-2 font-semibold rounded-md"
+                            onclick="stake()">Stake</button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="pt-2 pb-4 px-2 mb-6 flex flex-col justify-center-center rounded-lg shadow-lg backdrop-blur-lg bg-white/5">
+                <label for="unstakeAmount" class="text-white" id="stakeAmountLabel">Unstake</label>
+                <div class="flex flex-col lg:flex-row">
+                    <div class="lg:flex">
+                        <div class="flex w-full py-[2px] border-2 border-slate-400 rounded-md">
+                            <input id="unstakeAmount" type="text"
+                                class="w-full text-white ml-1 bg-transparent outline-none" placeholder="Enter amount">
+                            <button
+                                class="bg-slate-700 text-white py-1 px-6 ml-2 hover:bg-slate-800 hover:text-slate-200 font-semibold rounded-md"
+                                id="maxStakeAmount" onclick="setMaxUnstakeAmount()">Max</button>
+                        </div>
+                        <button
+                            class="bg-slate-700 text-white block lg:inline-block ml-auto lg:ml-1 lg:mr-0 lg:my-auto hover:bg-slate-800 hover:text-slate-200 px-6 py-[5px] lg:py-[6px] mt-2 font-semibold rounded-md"
+                            onclick="unstakePartial()">Unstake</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mb-10">
+            <div class="flex flex-col items-center p-2 rounded-lg backdrop-blur-lg bg-white/5 shadow-lg">
+                <div class="text-white font-semibold text-[18px]">Rewards</div>
+                <div class="text-white font-semibold text-[18px]"><span id="rewardAmount"></span> STKN</div>
+                <button
+                    class="bg-slate-700 text-white hover:bg-slate-800 hover:text-slate-200 mx-auto block px-6 py-1 font-semibold rounded-md"
+                    onclick="claimReward()">Claim</button>
+            </div>
+            <div class="flex flex-col items-center p-2 rounded-lg backdrop-blur-lg bg-white/5 shadow-lg">
+                <div class="text-white font-semibold text-[18px]">Staked</div>
+                <div class="text-white font-semibold text-[18px]"><span id="stakedAmount"></span> STKN</div>
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <a class="text-[24px]" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a class="text-[25px] text-blue-500" href="#"><i class="fa-brands fa-telegram"></i></a>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</body>
+
+</html>
